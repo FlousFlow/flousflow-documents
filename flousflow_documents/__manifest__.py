@@ -2,7 +2,7 @@
     "name": "Flous Flow Documents",
     "version": "19.0.1.1.0",
     "category": "Productivity/Documents",
-    "summary": "Document management: folders, files, URLs, tags, permissions, sharing and linking — standalone equivalent of the Enterprise Documents app for Odoo 19 Community",
+    "summary": "Folders, files and URLs with granular permissions, sharing, favorites, trash and portal — for Odoo 19 Community",
     "description": """
 Flous Flow Documents
 ====================
@@ -60,11 +60,11 @@ Features:
     "auto_install": False,
     "post_init_hook": "_install_arabic_translations",
     "images": [
-        "static/description/cover.png",
         "static/description/screenshot_kanban.png",
         "static/description/screenshot_form.png",
         "static/description/screenshot_share.png",
         "static/description/screenshot_trash.png",
         "static/description/screenshot_portal.png",
+        "static/description/cover.png",
     ],
 }
