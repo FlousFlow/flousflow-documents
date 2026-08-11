@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Sharing wizard                                               -->
+    <!-- ============================================================ -->
+    <record id="view_document_sharing_form" model="ir.ui.view">
+        <field name="name">flousflow.document.sharing.form</field>
+        <field name="model">flousflow.document.sharing</field>
+        <field name="arch" type="xml">
+            <form string="Share">
+                <group>
+                    <field name="document_ids" widget="many2many_tags"
+                           options="{'no_create_edit': True}"/>
+                </group>
+                <group string="Access">
+                    <group>
+                        <field name="access_internal" string="Internal users"
+                               invisible="is_readonly"/>
+                        <field name="access_via_link" string="Access through link"/>
+                        <field name="is_access_via_link_hidden" invisible="1"/>
+                    </group>
+                    <group>
+                        <div invisible="access_via_link == 'none'" class="text-muted">
+                            <i class="fa fa-link me-1"/>
+                            <span>Anyone with the link can access the document.</span>
+                        </div>
+                        <div invisible="is_folder_only">
+                            <label for="invite_partner_ids"/>
+                            <field name="invite_partner_ids" widget="many2many_tags"
+                                   options="{'no_create_edit': True}"/>
+                            <field name="invite_role"/>
+                        </div>
+                    </group>
+                </group>
+                <field name="has_warning_link_with_more_rights"
+                       invisible="has_warning_link_with_more_rights == False"
+                       class="text-warning"/>
+                <field name="has_warning_partners_without_access"
+                       invisible="has_warning_partners_without_access == False"
+                       class="text-warning"/>
+                <field name="share_access_ids" readonly="1">
+                    <list string="Invited partners">
+                        <field name="partner_id"/>
+                        <field name="role"/>
+                        <field name="expiration_date"/>
+                        <field name="has_user"/>
+                    </list>
+                </field>
+                <field name="owner_id" invisible="1"/>
+                <field name="is_readonly" invisible="1"/>
+                <field name="is_single" invisible="1"/>
+                <field name="is_folder_only" invisible="1"/>
+                <footer>
+                    <button string="Share" name="action_share" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Move / Copy wizard                                           -->
+    <!-- ============================================================ -->
+    <record id="view_document_operation_form" model="ir.ui.view">
+        <field name="name">flousflow.document.operation.form</field>
+        <field name="model">flousflow.document.operation</field>
+        <field name="arch" type="xml">
+            <form string="Move / Copy">
+                <group>
+                    <field name="document_ids" widget="many2many_tags"
+                           options="{'no_create_edit': True}"/>
+                    <field name="operation"/>
+                    <field name="destination_folder_id" string="Destination Folder"
+                           options="{'no_create': True}"/>
+                </group>
+                <group string="Access Rights (optional)" invisible="operation == 'copy'">
+                    <field name="access_internal"/>
+                    <field name="access_via_link"/>
+                    <field name="user_permission"/>
+                    <field name="is_access_via_link_hidden" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Confirm" name="action_move" type="object"
+                            class="btn-primary" invisible="operation == 'copy'"/>
+                    <button string="Confirm" name="action_copy" type="object"
+                            class="btn-primary" invisible="operation == 'move'"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Request a file wizard                                        -->
+    <!-- ============================================================ -->
+    <record id="view_document_request_form" model="ir.ui.view">
+        <field name="name">flousflow.document.request.form</field>
+        <field name="model">flousflow.document.request.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Request a file">
+                <group>
+                    <group>
+                        <field name="name" placeholder="e.g. Signed contract scan"/>
+                        <field name="requestee_id" string="Requested from"/>
+                        <field name="partner_id" string="Related contact"/>
+                    </group>
+                    <group>
+                        <field name="folder_id" string="Folder" options="{'no_create': True}"/>
+                        <field name="tag_ids" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    </group>
+                </group>
+                <group string="Activity">
+                    <group>
+                        <field name="activity_type_id"/>
+                        <field name="activity_date_deadline_range"/>
+                        <field name="activity_date_deadline_range_type"/>
+                    </group>
+                    <group>
+                        <field name="activity_note"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Request" name="action_request" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Link to record wizard                                        -->
+    <!-- ============================================================ -->
+    <record id="view_document_link_form" model="ir.ui.view">
+        <field name="name">flousflow.document.link.form</field>
+        <field name="model">flousflow.document.link.to.record.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Link to Record">
+                <group>
+                    <field name="document_ids" widget="many2many_tags"
+                           options="{'no_create_edit': True}"/>
+                </group>
+                <group string="Target Record">
+                    <field name="model_id" options="{'no_create': True}"/>
+                    <field name="resource_ref" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button string="Link" name="action_link" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- ============================================================ -->
+    <!-- Permanent deletion confirmation wizard                       -->
+    <!-- ============================================================ -->
+    <record id="view_document_delete_form" model="ir.ui.view">
+        <field name="name">flousflow.document.delete.form</field>
+        <field name="model">flousflow.document.delete.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Delete Forever">
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-exclamation-triangle me-1"/>
+                    This will permanently delete the document(s) and all their contents.
+                    This action cannot be undone.
+                </div>
+                <field name="document_ids" widget="many2many_tags" readonly="1"/>
+                <footer>
+                    <button string="Delete Forever" name="action_confirm_delete" type="object"
+                            class="btn-danger"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

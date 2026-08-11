@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_documents" name="My Documents">
+        <t t-call="portal.portal_layout">
+            <t t-set="page_name" t-value="'documents'"/>
+            <div class="container py-3">
+                <h2>My Documents</h2>
+                <t t-if="documents">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Document</th>
+                                <th>Size</th>
+                                <th>Date</th>
+                                <th class="text-end">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="documents" t-as="doc">
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-file-o me-1"/>
+                                        <t t-esc="doc.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="doc.file_size &lt; 1024">
+                                            <t t-esc="doc.file_size"/> B
+                                        </t>
+                                        <t t-elif="doc.file_size &lt; 1048576">
+                                            <t t-esc="'%0.1f' % (doc.file_size / 1024)"/> KB
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="'%0.1f' % (doc.file_size / 1048576)"/> MB
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.create_date.date()"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <a t-attf-href="/flousflow/documents/{{ doc.id }}?access_token={{ doc.access_token }}"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fa fa-download me-1"/>Download
+                                        </a>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <t t-else="">
+                    <div class="alert alert-info">
+                        No documents have been shared with you yet.
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

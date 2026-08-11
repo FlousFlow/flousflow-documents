@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root menu -->
+    <menuitem id="menu_documents_root" name="Documents" sequence="65"
+              web_icon="flousflow_documents,static/description/icon.png"/>
+
+    <!-- Main documents action (kanban view, matching the original) -->
+    <menuitem id="menu_documents_main" name="Documents"
+              parent="menu_documents_root" sequence="10"
+              action="action_document"/>
+
+    <!-- Trash section (like the original Trash tree section) -->
+    <menuitem id="menu_documents_trash" name="Trash"
+              parent="menu_documents_root" sequence="15"
+              action="action_document_trash" groups="flousflow_documents.group_documents_user"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_documents_config" name="Configuration"
+              parent="menu_documents_root" sequence="20"/>
+
+    <menuitem id="menu_documents_structure" name="Structure"
+              parent="menu_documents_config" sequence="40"/>
+
+    <menuitem id="menu_documents_tags" name="Tags"
+              parent="menu_documents_structure" sequence="10"
+              action="action_document_tag" groups="flousflow_documents.group_documents_manager"/>
+
+    <!-- Settings -->
+    <menuitem id="menu_documents_settings" name="Settings"
+              parent="menu_documents_config" sequence="50"
+              groups="flousflow_documents.group_documents_manager"
+              action="base_setup.action_general_configuration"/>
+</odoo>

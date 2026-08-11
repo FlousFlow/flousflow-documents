@@ -1,0 +1,34 @@
+// FlousFlow Documents — kanban view styling, matching the original
+// Odoo Documents look (preview thumbnail, tag badges, owner avatar).
+.o_documents_view {
+    .o_kanban_record {
+        .o_kanban_image_wrapper {
+            height: 140px;
+            background: #f5f6f7;
+            overflow: hidden;
+            border-radius: 0.25rem 0.25rem 0 0;
+
+            .o_documents_preview {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                align-self: center;
+            }
+
+            .o_documents_preview_icon {
+                align-self: center;
+            }
+
+            .o_documents_fav {
+                &:hover {
+                    transform: scale(1.15);
+                }
+            }
+        }
+
+        .o_kanban_record_body {
+            padding-top: 0.15rem;
+            font-size: 0.8rem;
+        }
+    }
+}

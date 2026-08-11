@@ -1,0 +1,21 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_user,Documents User,model_flousflow_document,group_documents_user,1,1,1,1
+access_document_manager,Documents Manager,model_flousflow_document,group_documents_manager,1,1,1,1
+access_document_portal,Documents Portal,model_flousflow_document,base.group_portal,1,1,1,1
+access_document_system,Documents System,model_flousflow_document,base.group_system,1,1,1,1
+access_document_tag_user,Documents Tag User,model_flousflow_document_tag,group_documents_user,1,0,0,0
+access_document_tag_manager,Documents Tag Manager,model_flousflow_document_tag,group_documents_manager,1,1,1,1
+access_document_tag_portal,Documents Tag Portal,model_flousflow_document_tag,base.group_portal,1,0,0,0
+access_document_tag_system,Documents Tag System,model_flousflow_document_tag,base.group_system,1,1,1,1
+access_document_access_user,Documents Access User,model_flousflow_document_access,group_documents_user,1,1,1,1
+access_document_access_portal,Documents Access Portal,model_flousflow_document_access,base.group_portal,1,0,0,0
+access_document_access_manager,Documents Access Manager,model_flousflow_document_access,group_documents_manager,1,1,1,1
+access_document_access_tracking_system,Documents Access Tracking System,model_flousflow_document_access_tracking,base.group_system,1,1,1,1
+access_document_sharing_user,Documents Sharing User,model_flousflow_document_sharing,group_documents_user,1,1,1,1
+access_document_sharing_manager,Documents Sharing Manager,model_flousflow_document_sharing,group_documents_manager,1,1,1,1
+access_document_sharing_access_user,Documents Sharing Access User,model_flousflow_document_sharing_access,group_documents_user,1,1,1,1
+access_document_sharing_access_manager,Documents Sharing Access Manager,model_flousflow_document_sharing_access,group_documents_manager,1,1,1,1
+access_document_operation_user,Documents Operation User,model_flousflow_document_operation,group_documents_user,1,1,1,1
+access_document_request_wizard_user,Documents Request Wizard User,model_flousflow_document_request_wizard,group_documents_user,1,1,1,1
+access_document_link_wizard_user,Documents Link Wizard User,model_flousflow_document_link_to_record_wizard,group_documents_user,1,1,1,1
+access_document_delete_wizard_user,Documents Delete Wizard User,model_flousflow_document_delete_wizard,group_documents_user,1,1,1,1

@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Form views                                                   -->
+    <!-- ============================================================ -->
+    <record id="view_document_form" model="ir.ui.view">
+        <field name="name">flousflow.document.form</field>
+        <field name="model">flousflow.document</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Document">
+                <header>
+                    <field name="type" widget="statusbar" readonly="1"/>
+                    <button name="action_share" type="object" string="Share"
+                            class="btn-primary"
+                            invisible="type == 'folder' or trashed or user_permission != 'edit'"/>
+                    <button name="action_move" type="object" string="Move / Copy"
+                            invisible="trashed or user_permission != 'edit'"/>
+                    <button name="action_link_to_record" type="object" string="Link to Record"
+                            invisible="trashed or user_permission != 'edit'"/>
+                    <button name="action_request_file" type="object" string="Request a file"
+                            invisible="trashed or user_permission != 'edit'"/>
+                    <button name="action_move_to_trash" type="object" string="Move to Trash"
+                            class="btn-danger" invisible="trashed or user_permission != 'edit'"/>
+                    <button name="action_restore" type="object" string="Restore"
+                            class="btn-primary"
+                            invisible="not trashed or user_permission != 'edit'"/>
+                    <button name="action_delete_permanently" type="object" string="Delete Forever"
+                            class="btn-danger"
+                            invisible="not trashed or user_permission != 'edit'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" colspan="2">
+                        <button name="action_toggle_favorite" type="object" class="oe_stat_button"
+                                icon="fa-star" string="Favorite" help="Add or remove from favorites"/>
+                        <button name="action_lock" type="object" class="oe_stat_button"
+                                icon="fa-lock" string="Lock"
+                                invisible="lock_uid != False or user_permission != 'edit'"/>
+                        <button name="action_unlock" type="object" class="oe_stat_button"
+                                icon="fa-unlock" string="Unlock"
+                                invisible="lock_uid == False or user_permission != 'edit'"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Document name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="folder_id" options="{'no_create': True}" domain="[('type','=','folder')]"/>
+                            <field name="owner_id" options="{'no_create': True}" domain="[('share','=',False)]"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="res_model" string="Resource Model" readonly="1"/>
+                            <field name="res_id" string="Resource" readonly="1" options="{'no_create': True}"/>
+                            <field name="res_name" readonly="1"/>
+                            <field name="create_date" readonly="1" groups="base.group_system"/>
+                            <field name="lock_uid" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="datas" widget="binary" string="File"
+                           invisible="type != 'binary'"/>
+                    <group invisible="type != 'url'">
+                        <field name="url" widget="url"/>
+                    </group>
+                    <notebook>
+                        <page string="Access" name="access">
+                            <group>
+                                <group>
+                                    <field name="access_internal"/>
+                                    <field name="owner_id" string="Owner"/>
+                                </group>
+                                <group>
+                                    <field name="access_via_link"/>
+                                    <field name="is_access_via_link_hidden"/>
+                                    <field name="access_url" readonly="1" widget="url"/>
+                                </group>
+                            </group>
+                            <group string="Email Alias" invisible="type != 'folder'">
+                                <group>
+                                    <field name="alias_name" placeholder="e.g. invoices"/>
+                                    <field name="alias_domain_id" options="{'no_create': True}"/>
+                                    <field name="alias_email" readonly="1"/>
+                                    <button name="action_create_alias" type="object"
+                                            string="Create Alias" class="btn-secondary"
+                                            invisible="user_permission != 'edit'"/>
+                                </group>
+                                <group>
+                                    <field name="alias_tag_ids" widget="many2many_tags"
+                                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                                </group>
+                            </group>
+                            <field name="access_ids">
+                                <list string="Partner Access" editable="bottom">
+                                    <field name="partner_id" options="{'no_create': True}"/>
+                                    <field name="role"/>
+                                    <field name="expiration_date"/>
+                                    <field name="last_access_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Details" name="details">
+                            <group>
+                                <field name="sequence"/>
+                                <field name="color" string="Folder Color" readonly="1"
+                                       invisible="type != 'folder'"/>
+                                <field name="file_extension" readonly="1"/>
+                                <field name="mimetype" readonly="1"/>
+                                <field name="file_size" readonly="1"/>
+                                <field name="checksum" readonly="1"/>
+                                <field name="current_revision_uuid" readonly="1"/>
+                            </group>
+                            <field name="previous_attachment_ids" readonly="1" widget="many2many_tags"/>
+                        </page>
+                        <page string="Activities" name="activities" invisible="create_activity_option == False">
+                            <group>
+                                <group>
+                                    <field name="create_activity_option"/>
+                                    <field name="create_activity_type_id" options="{'no_create': True}"/>
+                                    <field name="create_activity_summary"/>
+                                </group>
+                                <group>
+                                    <field name="create_activity_user_id" options="{'no_create': True}"/>
+                                    <field name="create_activity_date_deadline_range"/>
+                                    <field name="create_activity_date_deadline_range_type"/>
+                                </group>
+                            </group>
+                            <field name="create_activity_note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_document_form_new_folder" model="ir.ui.view">
+        <field name="name">New Folder form</field>
+        <field name="model">flousflow.document</field>
+        <field name="arch" type="xml">
+            <form string="New Folder">
+                <group>
+                    <group>
+                        <field name="type" invisible="1"/>
+                        <field name="name" string="Folder Name" placeholder="Folder name..." autofocus="1"/>
+                        <field name="folder_id" string="Parent Folder" domain="[('type','=','folder')]"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="access_internal" string="Internal Users Rights"/>
+                        <field name="owner_id" string="Owner" domain="[('share','=',False)]" options="{'no_create': True}"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Create" type="object" name="action_folder_create" class="btn-primary"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_document_form_rename" model="ir.ui.view">
+        <field name="name">Rename form</field>
+        <field name="model">flousflow.document</field>
+        <field name="arch" type="xml">
+            <form string="Rename">
+                <group>
+                    <field name="name" autofocus="1"/>
+                </group>
+                <footer>
+                    <button string="Save" type="object" name="action_rename" class="btn-primary"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_document_form_upload_url" model="ir.ui.view">
+        <field name="name">upload url</field>
+        <field name="model">flousflow.document</field>
+        <field name="arch" type="xml">
+            <form string="Add URL">
+                <group>
+                    <group>
+                        <field name="type" invisible="1"/>
+                        <field name="name" placeholder="Name"/>
+                        <field name="url" placeholder="https://..." autofocus="1"/>
+                    </group>
+                    <group>
+                        <field name="folder_id" domain="[('type','=','folder')]" options="{'no_create': True}"/>
+                        <field name="owner_id" domain="[('share','=',False)]" options="{'no_create': True}"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Save" type="object" name="action_url_save" class="btn-primary"/>
+                    <button string="Cancel" class="btn-cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Kanban                                                       -->
+    <!-- ============================================================ -->
+    <!-- Matches the original Odoo Documents kanban: preview thumbnail
+         + favourite star + name + activity/lock + owner avatar +
+         description line + tag badges. The folders live in the search
+         panel (see search view) instead of a custom coloured sidebar.
+         create="false" + view buttons = the unified "New" menu
+         (Upload / Link / Request / Folder). -->
+    <record id="view_document_kanban" model="ir.ui.view">
+        <field name="name">flousflow.document kanban</field>
+        <field name="model">flousflow.document</field>
+        <field name="arch" type="xml">
+            <kanban group_create="false" group_delete="false"
+                    group_edit="false" quick_create="false" create="false"
+                    class="o_documents_view">
+                <!-- Unified "New" menu (control panel buttons) -->
+                <header>
+                    <button type="object" name="action_new_upload" string="Upload"
+                            icon="fa-upload" class="btn-primary" display="always"/>
+                    <button type="object" name="action_new_url" string="Link"
+                            icon="fa-link" class="btn-secondary" display="always"/>
+                    <button type="object" name="action_request_file" string="Request"
+                            icon="fa-paper-plane-o" class="btn-secondary" display="always"/>
+                    <button type="object" name="action_new_folder" string="Folder"
+                            icon="fa-folder" class="btn-secondary" display="always"/>
+                </header>
+                <field name="id"/>
+                <field name="type"/>
+                <field name="name"/>
+                <field name="folder_id"/>
+                <field name="owner_id"/>
+                <field name="tag_ids"/>
+                <field name="is_favorited"/>
+                <field name="mimetype"/>
+                <field name="url"/>
+                <field name="attachment_id"/>
+                <field name="preview_src"/>
+                <field name="file_size"/>
+                <field name="res_name"/>
+                <field name="user_permission"/>
+                <field name="lock_uid"/>
+                <field name="trashed"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex flex-column o_documents_attachment h-100 pb-2">
+                            <div>
+                                <div class="o_kanban_image_wrapper d-flex justify-content-center position-relative oe_kanban_previewer">
+                                    <div class="position-absolute top-0 end-0 p-1 pt-2">
+                                        <button name="action_toggle_favorite" type="object"
+                                                t-attf-class="btn btn-link p-0 o_documents_fav {{ record.is_favorited.raw_value ? 'text-warning' : 'text-muted' }}"
+                                                title="Add to Favorites">
+                                            <i t-attf-class="fa {{ record.is_favorited.raw_value ? 'fa-star' : 'fa-star-o' }}"/>
+                                        </button>
+                                    </div>
+                                    <t t-if="record.type.raw_value === 'folder'">
+                                        <i class="fa fa-folder fa-4x text-muted o_documents_preview_icon" title="Folder"/>
+                                    </t>
+                                    <t t-elif="record.type.raw_value === 'url'">
+                                        <i class="fa fa-link fa-4x text-muted o_documents_preview_icon" title="Link"/>
+                                    </t>
+                                    <t t-elif="record.preview_src.raw_value">
+                                        <img t-attf-src="{{ record.preview_src.raw_value }}"
+                                             class="o_documents_preview img-fluid" alt="Document preview"/>
+                                    </t>
+                                    <t t-else="">
+                                        <i class="fa fa-file-o fa-4x text-muted o_documents_preview_icon" title="File"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-1 flex-auto">
+                                <div class="p-2 pb-0">
+                                    <div class="fw-bolder w-100 d-flex align-items-center">
+                                        <div class="d-flex flex-grow-1 align-items-center gap-2 overflow-hidden">
+                                            <span class="text-truncate">
+                                                <field name="name"/>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex align-items-center ms-2 gap-2">
+                                            <t t-if="record.lock_uid.raw_value">
+                                                <i class="fa fa-lock text-danger" title="Locked"/>
+                                            </t>
+                                            <t t-if="record.owner_id.raw_value">
+                                                <field name="owner_id" avatar="true"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_body text-truncate">
+                                        <span class="text-muted">
+                                            <t t-if="record.type.raw_value === 'binary' and record.file_size.raw_value">
+                                                <t t-esc="record.file_size.raw_value"/> bytes
+                                            </t>
+                                            <t t-elif="record.res_name.raw_value">
+                                                <field name="res_name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="record.type.raw_value === 'folder'">Folder</t>
+                                                <t t-elif="record.type.raw_value === 'url'">Link</t>
+                                                <t t-else="">File</t>
+                                            </t>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="d-flex px-2">
+                                <t t-if="record.trashed.raw_value">
+                                    <div class="d-flex gap-1 align-items-center w-100">
+                                        <button name="action_restore" type="object"
+                                                class="btn btn-sm btn-link p-0 text-primary"
+                                                title="Restore">
+                                            <i class="fa fa-undo"/>
+                                        </button>
+                                        <button name="action_delete_permanently" type="object"
+                                                class="btn btn-sm btn-link p-0 text-danger ms-auto"
+                                                title="Delete permanently">
+                                            <i class="fa fa-trash-o"/>
+                                        </button>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <field name="tag_ids" widget="many2many_tags"
+                                           options="{'color_field': 'color', 'no_create_edit': True}"/>
+                                </t>
+                            </footer>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- List                                                         -->
+    <!-- ============================================================ -->
+    <record id="view_document_list" model="ir.ui.view">
+        <field name="name">flousflow documents list</field>
+        <field name="model">flousflow.document</field>
+        <field name="arch" type="xml">
+            <list string="Documents" multi_edit="0" create="false">
+                <header>
+                    <button type="object" name="action_new_upload" string="Upload"
+                            icon="fa-upload" class="btn-primary" display="always"/>
+                    <button type="object" name="action_new_url" string="Link"
+                            icon="fa-link" class="btn-secondary" display="always"/>
+                    <button type="object" name="action_request_file" string="Request"
+                            icon="fa-paper-plane-o" class="btn-secondary" display="always"/>
+                    <button type="object" name="action_new_folder" string="Folder"
+                            icon="fa-folder" class="btn-secondary" display="always"/>
+                </header>
+                <field name="type" widget="badge" optional="hide"/>
+                <field name="name"/>
+                <field name="folder_id" optional="show"/>
+                <field name="owner_id" optional="hide"/>
+                <field name="tag_ids" widget="many2many_tags" optional="show"
+                       options="{'color_field': 'color'}"/>
+                <field name="partner_id" optional="hide"/>
+                <field name="res_model" string="Linked Model" optional="hide"/>
+                <field name="file_size" optional="hide"/>
+                <field name="access_internal" optional="hide"/>
+                <field name="create_date" optional="hide"/>
+                <field name="trashed" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Search                                                       -->
+    <!-- ============================================================ -->
+    <record id="view_document_search" model="ir.ui.view">
+        <field name="name">Document search view</field>
+        <field name="model">flousflow.document</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="name"/>
+                <field name="folder_id"/>
+                <field name="tag_ids"/>
+                <field name="owner_id"/>
+                <field name="partner_id"/>
+                <field name="res_model"/>
+                <!-- Sections: My Documents / Shared / Favorites / Recent.
+                     Trash is a separate action (menu item) like the original
+                     Trash section, so it never conflicts with the main view. -->
+                <filter name="my_documents" string="My Documents" domain="[('owner_id','=',uid)]"/>
+                <filter name="shared_with_me" string="Shared with me" domain="[('access_ids.partner_id','=',partner_id)]"/>
+                <filter name="favorites" string="Favorites" domain="[('is_favorited','=',True)]"/>
+                <filter name="recent" string="Recent" domain="[('is_recent','=',True)]"/>
+                <separator/>
+                <filter name="folders" string="Folders" domain="[('type','=','folder')]"/>
+                <filter name="files" string="Files" domain="[('type','=','binary')]"/>
+                <filter name="urls" string="URLs" domain="[('type','=','url')]"/>
+                <group>
+                    <filter name="group_folder" string="Folder" context="{'group_by':'folder_id'}"/>
+                    <filter name="group_owner" string="Owner" context="{'group_by':'owner_id'}"/>
+                    <filter name="group_tag" string="Tag" context="{'group_by':'tag_ids'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by':'type'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by':'company_id'}"/>
+                </group>
+                <searchpanel>
+                    <field name="folder_id" icon="fa-folder"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Actions                                                      -->
+    <!-- ============================================================ -->
+    <record id="action_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">flousflow.document</field>
+        <field name="view_mode">kanban,form,list,activity</field>
+        <field name="domain">[('trashed', '=', False)]</field>
+        <field name="context">{'default_type': 'binary'}</field>
+        <field name="view_id" ref="view_document_kanban"/>
+    </record>
+
+    <record id="action_document_trash" model="ir.actions.act_window">
+        <field name="name">Trash</field>
+        <field name="res_model">flousflow.document</field>
+        <field name="view_mode">kanban,form,list</field>
+        <field name="domain">[('trashed', '=', True)]</field>
+        <field name="context">{'default_type': 'binary', 'create': False}</field>
+        <field name="view_id" ref="view_document_kanban"/>
+    </record>
+
+    <record id="action_document_list" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">flousflow.document</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[]</field>
+        <field name="view_id" ref="view_document_list"/>
+    </record>
+
+    <record id="action_folder_form" model="ir.actions.act_window">
+        <field name="name">Add Folder</field>
+        <field name="res_model">flousflow.document</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_document_form_new_folder"/>
+        <field name="target">new</field>
+        <field name="context">{'default_type': 'folder'}</field>
+    </record>
+
+    <record id="action_url_form" model="ir.actions.act_window">
+        <field name="name">Add URL</field>
+        <field name="res_model">flousflow.document</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_document_form_upload_url"/>
+        <field name="target">new</field>
+        <field name="context">{'default_type': 'url'}</field>
+    </record>
+</odoo>

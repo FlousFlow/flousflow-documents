@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_flousflow_documents_settings" model="ir.ui.view">
+        <field name="name">res.config.settings view (flousflow documents)</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Documents" string="Documents" name="flousflow_documents"
+                     groups="flousflow_documents.group_documents_manager">
+                    <setting string="Deletion delay"
+                             help="Number of days items stay in the trash before being permanently deleted (0 = never delete).">
+                        <div class="row">
+                            <label for="flousflow_documents_deletion_delay"
+                                   string="Days" class="col-3 o_light_label"/>
+                            <field name="flousflow_documents_deletion_delay"
+                                   class="o_field_integer" nolabel="1"/>
+                        </div>
+                    </setting>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

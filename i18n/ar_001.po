@@ -1,0 +1,143 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#       * flousflow_documents
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-11 13:00+0000\n"
+"PO-Revision-Date: 2026-08-11 13:00+0300\n"
+"Last-Translator: Flous Flow\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Share"
+msgstr "مشاركة"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Move / Copy"
+msgstr "نقل / نسخ"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Request a file"
+msgstr "طلب ملف"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Link to Record"
+msgstr "ربط بسجل"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Delete Forever"
+msgstr "حذف نهائي"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Only the user who locked the document or a manager can unlock it."
+msgstr "فقط المستخدم الذي قفل المستند أو المدير يمكنه فتح القفل."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Only trashed documents can be permanently deleted."
+msgstr "يمكن حذف المستندات الموجودة في السلة فقط نهائياً."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "A file document must have an attachment. Upload a file first."
+msgstr "يجب أن يحتوي مستند الملف على مرفق. ارفع ملفاً أولاً."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Only documents of type 'folder' can be used as parent."
+msgstr "فقط المستندات من نوع 'مجلد' يمكن استخدامها كمجموعة أب."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_operation.py:0
+msgid "Please select a destination folder."
+msgstr "الرجاء اختيار المجلد الوجهة."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_operation.py:0
+msgid "A folder cannot be moved into itself."
+msgstr "لا يمكن نقل المجلد إلى داخله."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_sharing.py:0
+msgid "Hello,<br/>A document has been shared with you."
+msgstr "مرحباً،<br/>تمت مشاركة مستند معك."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_sharing.py:0
+msgid "A document has been shared with you."
+msgstr "تمت مشاركة مستند معك."
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_sharing.py:0
+msgid "The link access is more permissive than the internal access rights. Do you really want to continue?"
+msgstr "الوصول عبر الرابط أكثر سماحاً من صلاحيات الوصول الداخلية. هل تريد حقاً المتابعة؟"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_sharing.py:0
+msgid "The following partners have no access to the documents: %s"
+msgstr "الشركاء التاليون ليس لديهم حق الوصول إلى المستندات: %s"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document_request_wizard.py:0
+msgid "Please provide the file \"%s\""
+msgstr "الرجاء توفير الملف \"%s\""
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "New Folder"
+msgstr "مجلد جديد"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Add URL"
+msgstr "إضافة رابط"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Rename"
+msgstr "إعادة تسمية"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Upload"
+msgstr "رفع"
+
+#. module: flousflow_documents
+#. odoo-python
+#: code:addons/flousflow_documents/models/document.py:0
+msgid "Add Folder"
+msgstr "مجلد جديد"
