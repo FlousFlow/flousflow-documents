@@ -341,6 +341,38 @@ SELECTION_TRANSLATIONS = {
 
 
 # ──────────────────────────────────────────────────────────
+# ACTION NAME TRANSLATION MAP
+# key: English action name → Arabic
+# Applied to ir.actions.act_window.name (JSONB), shown in breadcrumbs
+# ──────────────────────────────────────────────────────────
+ACTIONS_TRANSLATIONS = {
+    'Documents': 'المستندات',
+    'Trash': 'السلة',
+    'Add Folder': 'مجلد جديد',
+    'Add URL': 'إضافة رابط',
+    'Tags': 'الوسوم',
+}
+
+
+def _install_action_arabic_translations(env):
+    """Inject Arabic translations for act_window names via JSONB."""
+    _logger.info('Installing Arabic action name translations...')
+    cr = env.cr
+    updated = 0
+    for en_name, ar_name in ACTIONS_TRANSLATIONS.items():
+        cr.execute("""
+            UPDATE ir_act_window
+            SET name = COALESCE(name, jsonb_build_object('en_US', %s))
+                       || jsonb_build_object('ar_001', %s)
+            WHERE name->>'en_US' = %s
+              AND (name->>'ar_001' IS NULL OR name->>'ar_001' != %s)
+        """, (en_name, ar_name, en_name, ar_name))
+        if cr.rowcount:
+            updated += 1
+    _logger.info('Arabic action translations installed: %d actions updated.', updated)
+
+
+# ──────────────────────────────────────────────────────────
 # Application functions
 # ──────────────────────────────────────────────────────────
 # ──────────────────────────────────────────────────────────
@@ -510,3 +542,6 @@ def _install_arabic_translations(env):
 
     # ── Phase 4: Menu Names ──
     _install_menu_arabic_translations(env)
+
+    # ── Phase 5: Action (act_window) Names ──
+    _install_action_arabic_translations(env)
