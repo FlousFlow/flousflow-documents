@@ -60,11 +60,11 @@ Features:
     "auto_install": False,
     "post_init_hook": "_install_arabic_translations",
     "images": [
+        "static/description/cover.png",
         "static/description/screenshot_kanban.png",
         "static/description/screenshot_form.png",
         "static/description/screenshot_share.png",
         "static/description/screenshot_trash.png",
         "static/description/screenshot_portal.png",
-        "static/description/cover.png",
     ],
 }

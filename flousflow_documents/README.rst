@@ -1,5 +1,5 @@
-.. image:: static/description/screenshot_kanban.png
-   :alt: Flous Flow Documents — kanban view
+.. image:: static/description/cover.png
+   :alt: Flous Flow Documents
 
 Flous Flow Documents
 ====================
@@ -9,6 +9,9 @@ equivalent to the Enterprise *Documents* app, built as an original
 implementation (no proprietary code copied). Folders, files, URLs, tags,
 granular permissions, sharing, favorites, lock/unlock, email aliases and a
 portal page — all in a native kanban view.
+
+.. image:: static/description/screenshot_kanban.png
+   :alt: Flous Flow Documents — kanban view
 
 Features
 --------
