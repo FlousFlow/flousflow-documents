@@ -399,27 +399,32 @@ VIEW_TEXT_TRANSLATIONS = {
 }
 
 
+def _translate_view_arch(en_arch):
+    """Translate supported view attributes without changing their XML names."""
+    def _translate_attribute(match):
+        attribute_name = match.group(1)
+        english = match.group(2)
+        arabic = VIEW_STRING_TRANSLATIONS.get(english)
+        if not arabic:
+            return match.group(0)
+        arabic = (arabic.replace('&', '&amp;')
+                  .replace('<', '&lt;')
+                  .replace('>', '&gt;')
+                  .replace('"', '&quot;'))
+        return f'{attribute_name}="{arabic}"'
+
+    translated = re.sub(
+        r'(string|placeholder)="([^"]*)"', _translate_attribute, en_arch
+    )
+    for english, arabic in VIEW_TEXT_TRANSLATIONS.items():
+        translated = translated.replace(english, arabic)
+    return translated
+
+
 def _install_view_arabic_translations(env):
     """Inject Arabic translations into ir.ui.view arch_db for view strings."""
     _logger.info('Installing Arabic view string translations...')
     cr = env.cr
-
-    def _translate_string(match):
-        en = match.group(1)
-        ar = VIEW_STRING_TRANSLATIONS.get(en)
-        if ar:
-            ar_escaped = (ar.replace('&', '&amp;')
-                           .replace('<', '&lt;')
-                           .replace('>', '&gt;')
-                           .replace('"', '&quot;'))
-            return 'string="' + ar_escaped + '"'
-        return match.group(0)
-
-    def _translate_text(arch):
-        """Replace known kanban card text nodes with Arabic."""
-        for en, ar in VIEW_TEXT_TRANSLATIONS.items():
-            arch = arch.replace(en, ar)
-        return arch
 
     cr.execute("""
         SELECT v.id, v.arch_db->>'en_US' AS en_arch, v.name
@@ -442,9 +447,7 @@ def _install_view_arabic_translations(env):
         if not has_str and not has_text:
             continue
 
-        ar_arch = re.sub(r'(?:string|placeholder)="([^"]*)"',
-                         _translate_string, en_arch)
-        ar_arch = _translate_text(ar_arch)
+        ar_arch = _translate_view_arch(en_arch)
         if ar_arch == en_arch:
             continue
 

@@ -1,6 +1,6 @@
 {
     "name": "Flous Flow Documents",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "category": "Productivity/Documents",
     "summary": "Folders, files and URLs with granular permissions, sharing, favorites, trash and portal — for Odoo 19 Community",
     "description": """
