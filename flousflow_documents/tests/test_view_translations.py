@@ -32,3 +32,19 @@ class TestDocumentViewTranslations(TransactionCase):
             translated_arch = _translate_view_arch(english_arch)
             with self.subTest(view=view.key or view.name):
                 etree.fromstring(translated_arch.encode())
+
+    def test_settings_are_nested_in_a_settings_block(self):
+        settings_view = self.env.ref(
+            "flousflow_documents.view_flousflow_documents_settings"
+        )
+        arch = etree.fromstring(settings_view.arch.encode())
+        settings = arch.xpath("//setting")
+
+        self.assertTrue(settings)
+        for setting in settings:
+            with self.subTest(setting=setting.get("string")):
+                self.assertTrue(
+                    setting.xpath("ancestor::block"),
+                    "Settings must be nested in a block so SearchableSetting "
+                    "receives the showAllContainer environment.",
+                )
